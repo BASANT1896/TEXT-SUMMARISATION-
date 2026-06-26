@@ -7,6 +7,8 @@ import torch
 import re
 from docx import Document
 from PyPDF2 import PdfReader
+import uvicorn
+import os
 
 # -----------------------------
 # FastAPI app
@@ -128,3 +130,7 @@ async def upload_file(file: UploadFile = File(...)):
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("app:app", host="0.0.0.0", port=port)

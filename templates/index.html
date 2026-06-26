@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarization</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #e0eafc;
+            --card: #ffffff;
+            --text: #333;
+            --primary: #2c7be5;
+            --muted: #666;
+        }
+
+        body.dark {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #e5e7eb;
+            --primary: #60a5fa;
+            --muted: #9ca3af;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: var(--text);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            background: var(--card);
+            width: 100%;
+            max-width: 650px;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+        }
+
+        p {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .upload-section {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: #2b3b55;
+            color: #cfe3ff;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s ease;
+        }
+
+        .upload-btn:hover {
+            background: #3b4f70;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 160px;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            resize: vertical;
+            background: transparent;
+            color: var(--text);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .counter {
+            text-align: right;
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #summary-output {
+            display: none;
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.03);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        body.dark #summary-output {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="toggle" id="theme-toggle">🌙</div>
+
+    <h1>Text Summarization</h1>
+    <p>Paste your dialogue or upload a document to get a concise summary.</p>
+
+    <!-- Upload -->
+    <div class="upload-section">
+        <label class="upload-btn" for="fileInput">📄 Upload PDF / Word / TXT</label>
+        <input type="file" id="fileInput" accept=".pdf,.docx,.txt" hidden>
+    </div>
+
+    <form id="summarization-form">
+        <textarea
+            id="dialogue-input"
+            placeholder="Enter your dialogue here..."
+            required
+        ></textarea>
+
+        <div class="counter" id="word-counter">0 / 1000 words</div>
+
+        <button type="submit" id="summarize-btn">Summarize</button>
+    </form>
+
+    <div id="summary-output">
+        <h3>Summary</h3>
+        <p id="summary-text"></p>
+    </div>
+</div>
+
+<script>
+    const body = document.body;
+    const toggle = document.getElementById("theme-toggle");
+    const textarea = document.getElementById("dialogue-input");
+    const counter = document.getElementById("word-counter");
+    const form = document.getElementById("summarization-form");
+    const button = document.getElementById("summarize-btn");
+    const summaryBox = document.getElementById("summary-output");
+    const summaryText = document.getElementById("summary-text");
+    const fileInput = document.getElementById("fileInput");
+
+    const MAX_WORDS = 1000;
+
+    // Restore theme
+    if (localStorage.getItem("theme") === "dark") {
+        body.classList.add("dark");
+        toggle.textContent = "☀️";
+    }
+
+    toggle.addEventListener("click", () => {
+        body.classList.toggle("dark");
+        const isDark = body.classList.contains("dark");
+        toggle.textContent = isDark ? "☀️" : "🌙";
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+
+    // TRUE word counter + enforcement
+    function updateCounter() {
+        let words = textarea.value.trim().split(/\s+/).filter(Boolean);
+
+        if (words.length > MAX_WORDS) {
+            textarea.value = words.slice(0, MAX_WORDS).join(" ");
+            words = words.slice(0, MAX_WORDS);
+        }
+
+        counter.textContent = `${words.length} / ${MAX_WORDS} words`;
+    }
+
+    textarea.addEventListener("input", updateCounter);
+
+    // File upload
+    fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const res = await fetch("/upload", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await res.json();
+        textarea.value = data.text;
+        updateCounter();
+    });
+
+    // Form submit
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        button.disabled = true;
+        button.textContent = "Summarizing...";
+        summaryBox.style.display = "none";
+
+        const dialogue = textarea.value;
+
+        const response = await fetch("/summarize/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ dialogue })
+        });
+
+        const data = await response.json();
+        summaryText.textContent = data.summary;
+        summaryBox.style.display = "block";
+
+        button.disabled = false;
+        button.textContent = "Summarize";
+    });
+</script>
+</body>
+</html>

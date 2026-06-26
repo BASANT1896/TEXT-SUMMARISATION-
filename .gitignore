@@ -1,15 +1,6 @@
-# Editor files
-.idea/
-
-# Python cache
-__pycache__/
-*.pyc
-
-# Environment
 .venv/
-env/
-
-# Large data and models
+__pycache__/
+.idea/
 *.zip
-results/
-TEXT SUMMARISATION DATASET/
+*.ipynb
+.env

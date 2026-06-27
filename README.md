@@ -18,12 +18,12 @@ The hybrid summarization architecture is integrated into a user-friendly, respon
 
 <p align="center">
   <b>1. Input Interface (Before Summarization)</b><br>
-  <img src="Screenshot 2026-06-27 135702.png" alt="Before Summarization Interface" width="90%" style="border-radius: 8px; margin-bottom: 20px;">
+  <img src="templates/Screenshot 2026-06-27 135702.png" alt="Before Summarization Interface" width="90%" style="border-radius: 8px; margin-bottom: 20px;">
 </p>
 
 <p align="center">
   <b>2. Model Output (After Summarization)</b><br>
-  <img src="Screenshot 2026-06-27 135735.png" alt="After Summarization Output" width="90%" style="border-radius: 8px;">
+  <img src="templates/Screenshot 2026-06-27 135735.png" alt="After Summarization Output" width="90%" style="border-radius: 8px;">
 </p>
 
 ---

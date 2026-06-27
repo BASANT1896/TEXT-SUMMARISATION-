@@ -88,11 +88,12 @@ cd TEXT-SUMMARISATION-
 # 2. Set Up a Virtual Environment
 python3 -m venv venv
 
-# Activate the virtual environment
-# On Linux/macOS:
+
 source venv/bin/activate
+
 # On Windows (Command Prompt):
 venv\Scripts\activate
+
 # On Windows (PowerShell):
 .\venv\Scripts\activate
 
@@ -103,6 +104,7 @@ pip install -r requirements.txt
 # 4. Run Your Own Training Pipeline
 # This runs the fine-tuning pipeline on the CNN/DailyMail dataset 
 # and saves the model weights to a localized './saved_model/' directory.
+
 python train.py --epochs 3 --batch_size 2 --lr 3e-5 --grad_accum 4
 
 # 5. Launch the Local FastAPI Web Application

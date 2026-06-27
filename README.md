@@ -82,8 +82,8 @@ Follow these step-by-step instructions to clone the repository, configure your l
 
 ```bash
 # 1. Clone the Repository & Navigate In
-git clone [https://github.com/BASANT1896/TEXT-SUMMARISATION-.git]
-cd TEXT-SUMMARISATION-
+git clone [https://github.com/BASANT1896/TEXT-SUMMARISATION.git]
+cd TEXT-SUMMARISATION
 
 # 2. Set Up a Virtual Environment
 python3 -m venv venv

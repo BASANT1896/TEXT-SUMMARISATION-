@@ -70,3 +70,57 @@ You may check out the complete system architecture implementation details, train
 * **Statistical NLP Gatekeeping:** Scikit-Learn , NLTK (Natural Language Toolkit) 
 * **API Delivery Layer:** FastAPI , Uvicorn ASGI Web Server 
 * **Document Handling Integration:** PyPDF2 , python-docx , Regular Expressions (Regex) 
+
+
+## 🛠️ Installation & Local Usage Guide
+
+Follow these step-by-step instructions to clone the repository, configure your local environment, train the model, and launch the interactive web application.
+
+### 📋 Prerequisites
+Ensure you have the following installed on your machine:
+* Python 3.8 or higher
+* `pip` (Python package installer)
+* A CUDA-compatible GPU (Highly recommended for accelerating the training phase)
+* and following should be the contents of requirements.txt
+torch>=2.0.0
+transformers>=4.30.0
+datasets>=2.12.0
+accelerate>=0.20.0
+scikit-learn
+nltk
+fastapi
+uvicorn
+pypdf2
+python-docx
+
+---
+
+### 💻 Step-by-Step Environment Setup & Execution
+
+```bash
+# 1. Clone the Repository & Navigate In
+git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+cd your-repo-name
+
+# 2. Set Up a Virtual Environment
+python3 -m venv venv
+
+# Activate the virtual environment
+# On Linux/macOS:
+source venv/bin/activate
+# On Windows (Command Prompt):
+venv\Scripts\activate
+# On Windows (PowerShell):
+.\venv\Scripts\activate
+
+# 3. Install Dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# 4. Run Your Own Training Pipeline
+# This runs the fine-tuning pipeline on the CNN/DailyMail dataset 
+# and saves the model weights to a localized './saved_model/' directory.
+python train.py --epochs 3 --batch_size 2 --lr 3e-5 --grad_accum 4
+
+# 5. Launch the Local FastAPI Web Application
+uvicorn main:app --reload --host 127.0.0.1 --port 8000

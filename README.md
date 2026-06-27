@@ -81,17 +81,6 @@ Ensure you have the following installed on your machine:
 * Python 3.8 or higher
 * `pip` (Python package installer)
 * A CUDA-compatible GPU (Highly recommended for accelerating the training phase)
-* and following should be the contents of requirements.txt
-torch>=2.0.0
-transformers>=4.30.0
-datasets>=2.12.0
-accelerate>=0.20.0
-scikit-learn
-nltk
-fastapi
-uvicorn
-pypdf2
-python-docx
 
 ---
 
@@ -99,7 +88,7 @@ python-docx
 
 ```bash
 # 1. Clone the Repository & Navigate In
-git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+git clone [https://github.com/BASANT1896/TEXT-SUMMARISATION-.git](https://github.com/your-username/your-repo-name.git)
 cd your-repo-name
 
 # 2. Set Up a Virtual Environment

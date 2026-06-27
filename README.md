@@ -52,6 +52,10 @@ The hybrid summarization architecture is integrated into a user-friendly, respon
 * **ROUGE-2:** Measures the overlap of two-word phrases (bigrams) to assess structural fluency and localized word ordering.
 * **ROUGE-L:** Measures the Longest Common Subsequence (LCS) to evaluate sentence-level structure and structural coherence without requiring strictly consecutive word matches.
 
+You may check out the complete system architecture implementation details, training convergence curves, and comprehensive result metrics in our report: [`text_summarisation_report.pdf`](text_summarisation_report.pdf).
+
+---
+
 ## 🚀 Key Features
 * **"Extract-then-Abstract" Pipeline:** Combines traditional statistical reliability with modern generative transformer fluency to eliminate large language model (LLM) hallucinations.
 * **Context Window Optimization:** Uses a dynamic TF-IDF preliminary gatekeeper to strip out background noise and extract the top $K$ salient sentences, squeezing dense multi-page text into an optimized input tensor.
